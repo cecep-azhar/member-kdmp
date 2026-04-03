@@ -5,14 +5,19 @@ import { usePathname } from "next/navigation";
 import { Home, User, Wallet, Landmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { useSettings } from "./SettingsProvider";
+import { useTranslation, TranslationKey } from "@/lib/i18n";
+
 export function BottomNav() {
   const pathname = usePathname();
+  const { language } = useSettings();
+  const t = useTranslation(language);
 
-  const links = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/savings", label: "Savings", icon: Wallet },
-    { href: "/loans", label: "Loans", icon: Landmark },
-    { href: "/profile", label: "Profile", icon: User },
+  const links: { href: string; label: TranslationKey; icon: React.ElementType }[] = [
+    { href: "/", label: "home", icon: Home },
+    { href: "/savings", label: "savings", icon: Wallet },
+    { href: "/loans", label: "loans", icon: Landmark },
+    { href: "/profile", label: "profile", icon: User },
   ];
 
   return (
@@ -37,7 +42,7 @@ export function BottomNav() {
               )}>
                 <Icon size={22} className={cn(isActive && "fill-primary/20")} strokeWidth={isActive ? 2.5 : 2} />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider">{link.label}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider">{t(link.label)}</span>
             </Link>
           );
         })}

@@ -1,0 +1,15 @@
+{
+  "welcome_back": "Selamat datang kembali,",
+  "total_savings_balance": "Total Saldo Simpanan",
+  "member_id": "ID Anggota",
+  "total_loans": "Total Pinjaman",
+  "active_loans": "Pinjaman Aktif",
+  "recent_transactions": "Transaksi Terbaru",
+  "view_all": "Lihat Semua",
+  "no_transactions": "Tidak ada transaksi",
+  "success": "BERHASIL",
+  "home": "Beranda",
+  "savings": "Simpanan",
+  "loans": "Pinjaman",
+  "profile": "Profil"
+}

@@ -1,0 +1,15 @@
+{
+  "welcome_back": "Welcome back,",
+  "total_savings_balance": "Total Savings Balance",
+  "member_id": "Member ID",
+  "total_loans": "Total Loans",
+  "active_loans": "Active Loans",
+  "recent_transactions": "Recent Transactions",
+  "view_all": "View All",
+  "no_transactions": "No transactions found",
+  "success": "SUCCESS",
+  "home": "Home",
+  "savings": "Savings",
+  "loans": "Loans",
+  "profile": "Profile"
+}

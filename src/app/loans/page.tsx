@@ -47,7 +47,7 @@ export default function LoansPage() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 pb-24">
       {/* Top Banner */}
-      <div className="bg-gradient-to-br from-indigo-700 to-primary px-6 pt-12 pb-20 text-white rounded-b-[40px] shadow-lg">
+      <div className="bg-linear-to-br from-indigo-700 to-primary px-6 pt-12 pb-20 text-white rounded-b-[40px] shadow-lg">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">My Loans</h1>
           <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -99,7 +99,7 @@ export default function LoansPage() {
                   </div>
                   <div>
                     <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Remaining</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white text-indigo-600 dark:text-indigo-400">Rp {(loan.remainingBalance || 0).toLocaleString('id-ID')}</p>
+                    <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">Rp {(loan.remainingBalance || 0).toLocaleString('id-ID')}</p>
                   </div>
                   <div>
                     <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Tenor</p>

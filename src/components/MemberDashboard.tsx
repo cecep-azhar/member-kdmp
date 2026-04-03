@@ -6,9 +6,13 @@ import { payloadFetch } from "@/lib/payload";
 import { Card, CardContent } from "./ui/card";
 import { Wallet, Landmark, ArrowUpRight, ArrowDownLeft, Bell, Search } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
+import { useSettings } from "./SettingsProvider";
+import { useTranslation } from "@/lib/i18n";
 
 export function MemberDashboard() {
   const { user } = useAuth();
+  const { settings, language } = useSettings();
+  const t = useTranslation(language);
   const [member, setMember] = useState<any>(null);
   const [savings, setSavings] = useState<any[]>([]);
   const [loans, setLoans] = useState<any[]>([]);
@@ -71,7 +75,7 @@ export function MemberDashboard() {
       {/* Header */}
       <div className="p-6 pb-2 text-slate-900 dark:text-white flex justify-between items-center">
         <div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Welcome back,</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{t('welcome_back')}</p>
           <h2 className="text-2xl font-bold tracking-tight">{member?.fullName || user?.name}</h2>
         </div>
         <div className="flex gap-2">
@@ -83,16 +87,16 @@ export function MemberDashboard() {
 
       <div className="p-6 space-y-6">
         {/* Main Balance Card */}
-        <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-primary to-indigo-600 p-8 text-white shadow-xl shadow-primary/20">
+        <div className="relative overflow-hidden rounded-[32px] bg-linear-to-br from-primary to-indigo-600 p-8 text-white shadow-xl shadow-primary/20">
           <div className="relative z-10">
-            <p className="text-primary-foreground/80 text-sm font-semibold uppercase tracking-wider mb-2">Total Savings Balance</p>
+            <p className="text-primary-foreground/80 text-sm font-semibold uppercase tracking-wider mb-2">{t('total_savings_balance')}</p>
             <h3 className="text-4xl font-bold mb-8">
               Rp {totalSavings.toLocaleString('id-ID')}
             </h3>
             
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-primary-foreground/60 text-xs font-medium mb-1">Member ID</p>
+                <p className="text-primary-foreground/60 text-xs font-medium mb-1">{t('member_id')}</p>
                 <p className="font-mono text-sm tracking-widest">{member?.memberId || 'KMP-XXXX-XXXX'}</p>
               </div>
               <div className="h-12 w-12 bg-white/20 blur-[0.5px] rounded-full flex items-center justify-center">
@@ -111,7 +115,7 @@ export function MemberDashboard() {
             <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-3">
               <ArrowDownLeft size={20} />
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-1">Total Loans</p>
+            <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-1">{t('total_loans')}</p>
             <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
               Rp {totalLoans.toLocaleString('id-ID')}
             </p>
@@ -120,7 +124,7 @@ export function MemberDashboard() {
             <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
               <Landmark size={20} />
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-1">Active Loans</p>
+            <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-1">{t('active_loans')}</p>
             <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
               {loans.length} Loans
             </p>
@@ -130,14 +134,14 @@ export function MemberDashboard() {
         {/* Recent Transactions */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h4 className="font-bold text-slate-900 dark:text-white">Recent Transactions</h4>
-            <button className="text-primary text-xs font-bold hover:underline">View All</button>
+            <h4 className="font-bold text-slate-900 dark:text-white">{t('recent_transactions')}</h4>
+            <button className="text-primary text-xs font-bold hover:underline">{t('view_all')}</button>
           </div>
           
           <div className="space-y-3">
             {savings.length === 0 ? (
               <div className="text-center py-10 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
-                <p className="text-sm text-slate-500 dark:text-slate-400">No transactions found</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{t('no_transactions')}</p>
               </div>
             ) : (
               savings.map((item) => (
@@ -163,7 +167,7 @@ export function MemberDashboard() {
                     <p className={`font-bold text-sm ${item.transactionType === 'deposit' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                       {item.transactionType === 'deposit' ? '+' : '-'} Rp {item.amount.toLocaleString('id-ID')}
                     </p>
-                    <p className="text-slate-400 text-[10px] uppercase font-bold tracking-tighter">SUCCESS</p>
+                    <p className="text-slate-400 text-[10px] uppercase font-bold tracking-tighter">{t('success')}</p>
                   </div>
                 </div>
               ))
