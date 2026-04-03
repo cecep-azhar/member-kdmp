@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, User, Wallet, Landmark } from "lucide-react";
+import { Home, User, Wallet, Landmark, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { useSettings } from "./SettingsProvider";
@@ -16,6 +16,7 @@ export function BottomNav() {
   const links: { href: string; label: TranslationKey; icon: React.ElementType }[] = [
     { href: "/", label: "home", icon: Home },
     { href: "/savings", label: "savings", icon: Wallet },
+    { href: "/news", label: "news", icon: Newspaper },
     { href: "/loans", label: "loans", icon: Landmark },
     { href: "/profile", label: "profile", icon: User },
   ];
