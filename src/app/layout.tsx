@@ -1,37 +1,34 @@
-"use client";
-
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { BottomNav } from "@/components/BottomNav";
 import { AuthProvider } from "@/components/AuthProvider";
-import { usePathname } from "next/navigation";
-
 import { SettingsProvider } from "@/components/SettingsProvider";
+import { ClientWrapper } from "@/components/ClientWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Aplikasi Anggota Koperasi",
+  description: "Portal anggota Koperasi Desa Merah Putih",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isLoginPage = pathname === "/login";
-
   return (
-    <html lang="en">
+    <html lang="id">
       <body className={`${inter.className} min-h-screen bg-slate-50 dark:bg-slate-950 font-sans antialiased text-slate-900 dark:text-slate-50`}>
         <SettingsProvider>
           <AuthProvider>
-            <div className="mx-auto max-w-md min-h-screen bg-white dark:bg-slate-900 shadow-2xl relative overflow-hidden flex flex-col pb-16">
-              <main className="flex-1 overflow-y-auto">
-                {children}
-              </main>
-              {!isLoginPage && <BottomNav />}
-            </div>
+            <ClientWrapper>
+              {children}
+            </ClientWrapper>
           </AuthProvider>
         </SettingsProvider>
       </body>
     </html>
   );
 }
+

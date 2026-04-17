@@ -13,37 +13,52 @@ export function BottomNav() {
   const { language } = useSettings();
   const t = useTranslation(language);
 
-  const links: { href: string; label: TranslationKey; icon: React.ElementType }[] = [
+  const links: { href: string; label: TranslationKey; icon: React.ElementType; activeMatch?: string }[] = [
     { href: "/", label: "home", icon: Home },
     { href: "/savings", label: "savings", icon: Wallet },
     { href: "/news", label: "news", icon: Newspaper },
-    { href: "/loans", label: "loans", icon: Landmark },
+    { href: "/loans", label: "loans", icon: Landmark, activeMatch: "/loans" },
     { href: "/profile", label: "profile", icon: User },
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full max-w-md mx-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 pb-safe z-50">
-      <div className="flex justify-around items-center h-16 px-4">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-50 shadow-2xl shadow-slate-200/50 dark:shadow-slate-900/50">
+      <div className="flex justify-around items-center h-16 px-2">
         {links.map((link) => {
           const Icon = link.icon;
-          const isActive = pathname === link.href;
+          const isActive = link.activeMatch
+            ? pathname.startsWith(link.activeMatch)
+            : pathname === link.href;
 
           return (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "flex flex-col items-center justify-center w-full h-full space-y-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-all active:scale-95",
-                isActive && "text-primary dark:text-primary"
+                "flex flex-col items-center justify-center flex-1 h-full space-y-0.5 transition-all duration-200",
+                isActive ? "text-primary" : "text-slate-400 dark:text-slate-500 hover:text-slate-600"
               )}
             >
-              <div className={cn(
-                "p-1 rounded-xl transition-colors",
-                isActive && "bg-primary/10"
-              )}>
-                <Icon size={22} className={cn(isActive && "fill-primary/20")} strokeWidth={isActive ? 2.5 : 2} />
+              <div
+                className={cn(
+                  "w-10 h-7 rounded-full flex items-center justify-center transition-all duration-200",
+                  isActive && "bg-primary/10"
+                )}
+              >
+                <Icon
+                  size={21}
+                  strokeWidth={isActive ? 2.5 : 1.8}
+                  className={cn(isActive && "fill-primary/10")}
+                />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider">{t(link.label)}</span>
+              <span
+                className={cn(
+                  "text-[9.5px] font-bold uppercase tracking-wider transition-all",
+                  isActive ? "text-primary" : "text-slate-400"
+                )}
+              >
+                {t(link.label)}
+              </span>
             </Link>
           );
         })}
