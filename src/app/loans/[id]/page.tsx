@@ -102,7 +102,7 @@ export default function LoanDetailPage() {
 
       <div className="p-5 space-y-5">
         {/* Hero Card */}
-        <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[24px] p-6 text-white shadow-xl shadow-indigo-500/20">
+        <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-[24px] p-6 text-white shadow-xl shadow-red-500/20">
           <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">Sisa Pinjaman</p>
           <h2 className="text-3xl font-black mb-4">
             Rp {(loan.remainingBalance || 0).toLocaleString("id-ID")}

@@ -3,25 +3,25 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { payloadFetch } from "@/lib/payload";
-import { ArrowDownLeft, ArrowUpRight, Wallet, TrendingUp } from "lucide-react";
+import { useSavingsBalance } from "@/hooks/useSavingsBalance";
+import { SAVING_TYPE_LABELS, TRANSACTION_TYPE_LABELS, SAVING_STATUS_LABELS } from "@/constants/labels";
+import { formatDate } from "@/lib/format";
+import type { Member, Saving, SavingType, TransactionType } from "@/types";
+import { ArrowDownLeft, ArrowUpRight, Wallet } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-type SavingType = "all" | "pokok" | "wajib" | "sukarela";
-type TxType = "all" | "deposit" | "withdrawal";
-
-const typeLabels: Record<string, string> = {
-  pokok: "Simpanan Pokok",
-  wajib: "Simpanan Wajib",
-  sukarela: "Simpanan Sukarela",
-};
+type FilterType = "all" | SavingType;
+type TxFilterType = "all" | TransactionType;
 
 export default function SavingsPage() {
   const { user } = useAuth();
-  const [member, setMember] = useState<any>(null);
-  const [savings, setSavings] = useState<any[]>([]);
+  const [member, setMember] = useState<Member | null>(null);
+  const [savings, setSavings] = useState<Saving[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeType, setActiveType] = useState<SavingType>("all");
-  const [activeTx, setActiveTx] = useState<TxType>("all");
+  const [activeType, setActiveType] = useState<FilterType>("all");
+  const [activeTx, setActiveTx] = useState<TxFilterType>("all");
+
+  const { pokok, wajib, sukarela, total: totalSavings } = useSavingsBalance(savings);
 
   useEffect(() => {
     async function fetchData() {
@@ -29,10 +29,10 @@ export default function SavingsPage() {
       try {
         const memberData = await payloadFetch(`/members?where[user][equals]=${user.id}`);
         if (memberData.docs.length > 0) {
-          const m = memberData.docs[0];
+          const m = memberData.docs[0] as Member;
           setMember(m);
           const savingsData = await payloadFetch(`/savings?where[member][equals]=${m.id}&sort=-createdAt&limit=200`);
-          setSavings(savingsData.docs);
+          setSavings(savingsData.docs as Saving[]);
         }
       } catch (err) {
         console.error("Failed to fetch savings data", err);
@@ -43,27 +43,13 @@ export default function SavingsPage() {
     fetchData();
   }, [user]);
 
-  const calcBalance = (type: string) =>
-    savings
-      .filter((s) => s.type === type && s.status === "completed")
-      .reduce((sum, s) => {
-        if (s.transactionType === "deposit") return sum + s.amount;
-        if (s.transactionType === "withdrawal") return sum - s.amount;
-        return sum;
-      }, 0);
-
-  const pokokBalance = calcBalance("pokok");
-  const wajibBalance = calcBalance("wajib");
-  const sukarelaBalance = calcBalance("sukarela");
-  const totalSavings = pokokBalance + wajibBalance + sukarelaBalance;
-
   const filtered = savings.filter((s) => {
     const typeMatch = activeType === "all" || s.type === activeType;
     const txMatch = activeTx === "all" || s.transactionType === activeTx;
     return typeMatch && txMatch;
   });
 
-  const tabs: { key: SavingType; label: string }[] = [
+  const tabs: { key: FilterType; label: string }[] = [
     { key: "all", label: "Semua" },
     { key: "pokok", label: "Pokok" },
     { key: "wajib", label: "Wajib" },
@@ -87,7 +73,7 @@ export default function SavingsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 pb-24">
       {/* Header Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 px-6 pt-12 pb-24 text-white shadow-xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-red-600 via-red-500 to-red-700 px-6 pt-12 pb-24 text-white shadow-xl">
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-6">
             <Wallet size={20} className="text-white/70" />
@@ -104,15 +90,15 @@ export default function SavingsPage() {
           </p>
         </div>
         <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-indigo-400/20 blur-xl" />
+        <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-red-400/20 blur-xl" />
       </div>
 
       {/* 3 Kartu Saldo */}
       <div className="px-5 -mt-14 z-10 relative grid grid-cols-3 gap-3 mb-2">
         {[
-          { type: "pokok", label: "Pokok", value: pokokBalance, color: "from-blue-500 to-blue-600", light: "bg-blue-50 text-blue-700" },
-          { type: "wajib", label: "Wajib", value: wajibBalance, color: "from-emerald-500 to-teal-600", light: "bg-emerald-50 text-emerald-700" },
-          { type: "sukarela", label: "Sukarela", value: sukarelaBalance, color: "from-violet-500 to-purple-600", light: "bg-violet-50 text-violet-700" },
+          { type: "pokok", label: "Pokok", value: pokok, color: "from-red-500 to-red-600", light: "bg-red-50 text-red-700" },
+          { type: "wajib", label: "Wajib", value: wajib, color: "from-orange-500 to-orange-600", light: "bg-orange-50 text-orange-700" },
+          { type: "sukarela", label: "Sukarela", value: sukarela, color: "from-rose-500 to-rose-600", light: "bg-rose-50 text-rose-700" },
         ].map((item) => (
           <button
             key={item.type}
@@ -205,14 +191,10 @@ export default function SavingsPage() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-900 dark:text-white text-sm">
-                      {typeLabels[item.type] || item.type}
+                      {SAVING_TYPE_LABELS[item.type as keyof typeof SAVING_TYPE_LABELS] || item.type}
                     </p>
                     <p className="text-slate-400 text-[11px] font-medium">
-                      {new Date(item.createdAt).toLocaleDateString("id-ID", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
+                      {formatDate(item.createdAt)}
                     </p>
                   </div>
                 </div>
@@ -234,7 +216,7 @@ export default function SavingsPage() {
                       }`}
                     />
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                      {item.status === "completed" ? "Selesai" : item.status}
+                      {SAVING_STATUS_LABELS[item.status as keyof typeof SAVING_STATUS_LABELS] || item.status}
                     </p>
                   </div>
                 </div>

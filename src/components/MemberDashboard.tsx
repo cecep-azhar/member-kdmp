@@ -6,6 +6,10 @@ import { payloadFetch } from "@/lib/payload";
 import { Skeleton } from "./ui/skeleton";
 import { useSettings } from "./SettingsProvider";
 import { useTranslation } from "@/lib/i18n";
+import { useSavingsBalance } from "@/hooks/useSavingsBalance";
+import { SAVING_TYPE_LABELS, TRANSACTION_TYPE_LABELS } from "@/constants/labels";
+import { formatDate } from "@/lib/format";
+import type { Member, Saving, Loan, InstallmentSchedule } from "@/types";
 import Link from "next/link";
 import {
   Wallet,
@@ -15,9 +19,7 @@ import {
   Bell,
   ChevronRight,
   BookOpen,
-  Info,
   Newspaper,
-  TrendingUp,
   AlertCircle,
   CheckCircle2,
   Clock,
@@ -27,10 +29,12 @@ export function MemberDashboard() {
   const { user } = useAuth();
   const { settings, language } = useSettings();
   const t = useTranslation(language);
-  const [member, setMember] = useState<any>(null);
-  const [savings, setSavings] = useState<any[]>([]);
-  const [loans, setLoans] = useState<any[]>([]);
+  const [member, setMember] = useState<Member | null>(null);
+  const [savings, setSavings] = useState<Saving[]>([]);
+  const [loans, setLoans] = useState<Loan[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { pokok, wajib, sukarela, total: totalSavings } = useSavingsBalance(savings);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,14 +42,15 @@ export function MemberDashboard() {
       try {
         const memberData = await payloadFetch(`/members?where[user][equals]=${user.id}&depth=1`);
         if (memberData.docs.length > 0) {
-          const m = memberData.docs[0];
+          const m = memberData.docs[0] as Member;
           setMember(m);
 
-          const savingsData = await payloadFetch(`/savings?where[member][equals]=${m.id}&sort=-createdAt&limit=100`);
-          setSavings(savingsData.docs);
-
-          const loansData = await payloadFetch(`/loans?where[member][equals]=${m.id}&sort=-createdAt`);
-          setLoans(loansData.docs);
+          const [savingsData, loansData] = await Promise.all([
+            payloadFetch(`/savings?where[member][equals]=${m.id}&sort=-createdAt&limit=100`),
+            payloadFetch(`/loans?where[member][equals]=${m.id}&sort=-createdAt`),
+          ]);
+          setSavings(savingsData.docs as Saving[]);
+          setLoans(loansData.docs as Loan[]);
         }
       } catch (err) {
         console.error("Failed to fetch dashboard data", err);
@@ -56,49 +61,18 @@ export function MemberDashboard() {
     fetchData();
   }, [user]);
 
-  // Hitung saldo per jenis simpanan
-  const calcBalance = (type: string) =>
-    savings
-      .filter((s) => s.type === type && s.status === "completed")
-      .reduce((sum, s) => {
-        if (s.transactionType === "deposit") return sum + s.amount;
-        if (s.transactionType === "withdrawal") return sum - s.amount;
-        return sum;
-      }, 0);
-
-  const pokokBalance = calcBalance("pokok");
-  const wajibBalance = calcBalance("wajib");
-  const sukarelaBalance = calcBalance("sukarela");
-  const totalSavings = pokokBalance + wajibBalance + sukarelaBalance;
-
   const activeLoans = loans.filter((l) => l.status === "active");
   const totalLoanBalance = activeLoans.reduce((sum, l) => sum + (l.remainingBalance || 0), 0);
 
-  // Angsuran terdekat
-  const nextInstallment = activeLoans
+  const nextInstallment: (InstallmentSchedule & { loanId: string }) | undefined = activeLoans
     .flatMap((loan) =>
       (loan.installmentSchedule || [])
-        .filter((inst: any) => inst.status === "unpaid")
-        .map((inst: any) => ({ ...inst, loanId: loan.loanId }))
+        .filter((inst) => inst.status === "unpaid")
+        .map((inst) => ({ ...inst, loanId: loan.loanId }))
     )
-    .sort((a: any, b: any) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
+    .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
 
   const recentSavings = savings.slice(0, 5);
-
-  const statusLabel: Record<string, string> = {
-    active: "Aktif",
-    completed: "Lunas",
-    pending: "Menunggu",
-    rejected: "Ditolak",
-    defaulted: "Macet",
-    approved: "Disetujui",
-  };
-
-  const savingTypeLabel: Record<string, string> = {
-    pokok: "Simpanan Pokok",
-    wajib: "Simpanan Wajib",
-    sukarela: "Simpanan Sukarela",
-  };
 
   if (loading) {
     return (
@@ -144,7 +118,7 @@ export function MemberDashboard() {
 
       <div className="p-5 space-y-5">
         {/* Hero Balance Card */}
-        <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-indigo-600 via-primary to-violet-700 p-6 text-white shadow-2xl shadow-indigo-500/30">
+        <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-red-600 via-red-500 to-red-700 p-6 text-white shadow-2xl shadow-red-500/30">
           <div className="relative z-10">
             <p className="text-white/70 text-xs font-bold uppercase tracking-widest mb-1">
               Total Saldo Simpanan
@@ -160,7 +134,7 @@ export function MemberDashboard() {
             </div>
           </div>
           <div className="absolute -top-10 -right-10 h-44 w-44 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-violet-400/20 blur-2xl" />
+          <div className="absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-red-400/20 blur-2xl" />
           <div className="absolute top-4 right-4 opacity-20">
             <Wallet size={80} strokeWidth={1} />
           </div>
@@ -169,9 +143,9 @@ export function MemberDashboard() {
         {/* 3 Saldo per Jenis Simpanan */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: "Pokok", value: pokokBalance, color: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400", border: "border-blue-100 dark:border-blue-800" },
-            { label: "Wajib", value: wajibBalance, color: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400", border: "border-emerald-100 dark:border-emerald-800" },
-            { label: "Sukarela", value: sukarelaBalance, color: "bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400", border: "border-violet-100 dark:border-violet-800" },
+            { label: "Pokok", value: pokok, color: "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400", border: "border-red-100 dark:border-red-800" },
+            { label: "Wajib", value: wajib, color: "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400", border: "border-orange-100 dark:border-orange-800" },
+            { label: "Sukarela", value: sukarela, color: "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400", border: "border-rose-100 dark:border-rose-800" },
           ].map((item) => (
             <div
               key={item.label}
@@ -217,7 +191,7 @@ export function MemberDashboard() {
                     <p className="text-xs font-black text-slate-900 dark:text-white">
                       Rp {(nextInstallment.total || 0).toLocaleString("id-ID")}
                       <span className="text-slate-400 font-medium ml-1">
-                        · {new Date(nextInstallment.dueDate).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+                        · {formatDate(nextInstallment.dueDate, "short")}
                       </span>
                     </p>
                   </div>
@@ -295,14 +269,10 @@ export function MemberDashboard() {
                     </div>
                     <div>
                       <p className="font-bold text-slate-900 dark:text-white text-xs">
-                        {savingTypeLabel[item.type] || item.type}
+                        {SAVING_TYPE_LABELS[item.type as keyof typeof SAVING_TYPE_LABELS] || item.type}
                       </p>
                       <p className="text-slate-400 text-[10px]">
-                        {new Date(item.createdAt).toLocaleDateString("id-ID", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {formatDate(item.createdAt, "short")}
                       </p>
                     </div>
                   </div>

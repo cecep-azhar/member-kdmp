@@ -1,0 +1,28 @@
+{
+  "name": "Aplikasi Anggota KDMP",
+  "short_name": "KDMP",
+  "description": "Portal anggota Cooperativa Desa Merah Putih",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#DC2626",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "lang": "id",
+  "dir": "ltr"
+}

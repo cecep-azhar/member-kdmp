@@ -45,6 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = (userData: User, token: string) => {
     localStorage.setItem("member-user", JSON.stringify(userData));
     localStorage.setItem("member-token", token);
+    // Also set httpOnly cookie for middleware auth check
+    document.cookie = `member-token=${token}; path=/; max-age=${7 * 24 * 60 * 60}; samesite=strict`;
     setUser(userData);
     router.replace("/");
   };
@@ -52,6 +54,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     localStorage.removeItem("member-user");
     localStorage.removeItem("member-token");
+    // Clear the auth cookie
+    document.cookie = 'member-token=; path=/; max-age=0';
     setUser(null);
     router.replace("/login");
   };

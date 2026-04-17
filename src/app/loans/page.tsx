@@ -66,7 +66,7 @@ export default function LoansPage() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 pb-24">
       {/* Header Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-indigo-700 via-primary to-violet-700 px-6 pt-12 pb-24 text-white shadow-xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-red-700 via-red-600 to-red-700 px-6 pt-12 pb-24 text-white shadow-xl">
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-6">
             <Landmark size={20} className="text-white/70" />
@@ -83,7 +83,7 @@ export default function LoansPage() {
           </p>
         </div>
         <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-violet-400/20 blur-xl" />
+        <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-red-400/20 blur-xl" />
       </div>
 
       <div className="px-5 -mt-14 z-10 relative space-y-4">
@@ -109,7 +109,7 @@ export default function LoansPage() {
                   {/* Header pinjaman */}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                      <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-600 dark:text-red-400">
                         <Landmark size={22} />
                       </div>
                       <div>
@@ -137,7 +137,7 @@ export default function LoansPage() {
                     </div>
                     <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3">
                       <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Sisa Pinjaman</p>
-                      <p className="text-sm font-black text-indigo-600 dark:text-indigo-400">
+                      <p className="text-sm font-black text-red-600 dark:text-red-400">
                         Rp {(loan.remainingBalance || 0).toLocaleString("id-ID")}
                       </p>
                     </div>
@@ -154,7 +154,7 @@ export default function LoansPage() {
                       </div>
                       <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-primary to-indigo-500 rounded-full transition-all"
+                          className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full transition-all"
                           style={{ width: `${progressPct}%` }}
                         />
                       </div>

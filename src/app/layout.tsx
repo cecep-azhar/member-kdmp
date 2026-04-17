@@ -1,15 +1,44 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 import { SettingsProvider } from "@/components/SettingsProvider";
 import { ClientWrapper } from "@/components/ClientWrapper";
+import { ToastProvider } from "@/components/ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Aplikasi Anggota Koperasi",
-  description: "Portal anggota Koperasi Desa Merah Putih",
+  title: {
+    default: "Aplikasi Anggota KDMP",
+    template: "%s | KDMP",
+  },
+  description: "Portal anggota Cooperativa Desa Merah Putih",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "KDMP",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Aplikasi Anggota KDMP",
+    title: "Aplikasi Anggota KDMP",
+    description: "Portal anggota Cooperativa Desa Merah Putih",
+  },
+  twitter: {
+    card: "summary",
+    title: "Aplikasi Anggota KDMP",
+    description: "Portal anggota Cooperativa Desa Merah Putih",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#DC2626",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -23,6 +52,7 @@ export default function RootLayout({
         <SettingsProvider>
           <AuthProvider>
             <ClientWrapper>
+              <ToastProvider />
               {children}
             </ClientWrapper>
           </AuthProvider>
@@ -31,4 +61,3 @@ export default function RootLayout({
     </html>
   );
 }
-

@@ -152,7 +152,7 @@ export default function InfoPage() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 pb-24">
       {/* Hero Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-700 via-indigo-600 to-violet-700 px-6 pt-10 pb-8 text-white shadow-xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-red-700 via-red-600 to-red-700 px-6 pt-10 pb-8 text-white shadow-xl">
         <div className="relative z-10">
           <div className="w-16 h-16 rounded-[20px] bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4 shadow-lg">
             <Building2 size={32} />
@@ -163,7 +163,7 @@ export default function InfoPage() {
           <p className="text-white/70 text-sm font-medium">Melayani Dengan Hati, Tumbuh Bersama</p>
         </div>
         <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-violet-400/20 blur-xl" />
+        <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-red-400/20 blur-xl" />
       </div>
 
       <div className="p-5 space-y-4">
@@ -237,7 +237,7 @@ export default function InfoPage() {
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {boardMembers.map((bm: any) => (
                 <div key={bm.id} className="flex items-center gap-4 px-5 py-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-black text-sm flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center text-white font-black text-sm flex-shrink-0">
                     {bm.name?.charAt(0) || "?"}
                   </div>
                   <div>
@@ -266,7 +266,7 @@ export default function InfoPage() {
                 { jabatan: "Bendahara", nama: "Data dari Admin" },
               ].map((p) => (
                 <div key={p.jabatan} className="flex items-center gap-4 px-5 py-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-black text-sm flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center text-white font-black text-sm flex-shrink-0">
                     {p.jabatan.charAt(0)}
                   </div>
                   <div>

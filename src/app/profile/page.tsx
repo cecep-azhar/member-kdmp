@@ -93,7 +93,7 @@ export default function ProfilePage() {
       {/* Header Profil */}
       <div className="bg-white dark:bg-slate-900 px-6 pt-10 pb-8 border-b border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center">
         <div className="relative mb-5">
-          <div className="w-24 h-24 rounded-[30px] bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center text-white text-3xl font-black uppercase ring-8 ring-primary/10 shadow-xl">
+          <div className="w-24 h-24 rounded-[30px] bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white text-3xl font-black uppercase ring-8 ring-red-500/10 shadow-xl">
             {(member?.fullName || user?.name)?.charAt(0) || "A"}
           </div>
           <div className="absolute -bottom-2 -right-2 w-9 h-9 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center shadow-lg border border-slate-100 dark:border-slate-700">

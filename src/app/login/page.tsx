@@ -4,10 +4,10 @@ export default function LoginPage() {
   return (
     <div className="relative flex flex-col min-h-screen bg-white dark:bg-slate-900 overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 left-0 right-0 h-72 bg-gradient-to-br from-indigo-600 via-primary to-violet-700 rounded-b-[60px]">
+      <div className="absolute top-0 left-0 right-0 h-72 bg-gradient-to-br from-red-600 via-red-500 to-red-700 rounded-b-[60px]">
         <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute top-12 -left-8 h-32 w-32 rounded-full bg-violet-400/20 blur-xl" />
-        <div className="absolute bottom-8 right-12 h-24 w-24 rounded-full bg-indigo-400/30 blur-lg" />
+        <div className="absolute top-12 -left-8 h-32 w-32 rounded-full bg-red-400/20 blur-xl" />
+        <div className="absolute bottom-8 right-12 h-24 w-24 rounded-full bg-red-400/30 blur-lg" />
       </div>
 
       {/* Konten */}

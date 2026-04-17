@@ -4,18 +4,17 @@ import { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { payloadFetch } from "@/lib/payload";
 import { Loader2, Lock, Mail, Wallet } from "lucide-react";
+import { toast } from "sonner";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
 
     try {
       const data = await payloadFetch("/users/login", {
@@ -24,18 +23,21 @@ export function LoginForm() {
       });
 
       if (data.token && data.user) {
+        toast.success("Berhasil masuk!", {
+          description: `Selamat datang, ${data.user.name || data.user.email}`,
+        });
         login(data.user, data.token);
       } else {
-        setError("Email atau password tidak valid");
+        toast.error("Email atau password tidak valid");
       }
     } catch (err: any) {
       const msg = err.message || "";
       if (msg.toLowerCase().includes("invalid") || msg.toLowerCase().includes("credentials")) {
-        setError("Email atau password salah. Silakan coba lagi.");
+        toast.error("Email atau password salah");
       } else if (msg.toLowerCase().includes("fetch")) {
-        setError("Tidak dapat terhubung ke server. Pastikan server aktif.");
+        toast.error("Tidak dapat terhubung ke server");
       } else {
-        setError(msg || "Terjadi kesalahan. Silakan coba lagi.");
+        toast.error(msg || "Terjadi kesalahan");
       }
     } finally {
       setIsLoading(false);
@@ -46,7 +48,7 @@ export function LoginForm() {
     <div className="w-full">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-primary/30">
+        <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-red-500/30">
           <Wallet size={30} className="text-white" />
         </div>
         <h1 className="text-2xl font-black text-slate-900 dark:text-white">Selamat Datang</h1>
@@ -108,18 +110,11 @@ export function LoginForm() {
           </div>
         </div>
 
-        {/* Error */}
-        {error && (
-          <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl p-3">
-            <p className="text-sm font-semibold text-rose-600 dark:text-rose-400">{error}</p>
-          </div>
-        )}
-
         {/* Submit */}
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 rounded-xl bg-gradient-to-r from-primary to-indigo-600 text-white font-black text-sm shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full h-12 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-black text-sm shadow-lg shadow-red-500/30 hover:shadow-xl hover:shadow-red-500/40 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isLoading ? (
             <>

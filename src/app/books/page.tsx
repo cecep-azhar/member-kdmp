@@ -32,9 +32,9 @@ const books = [
     no: 3,
     title: "Buku Pinjaman Anggota",
     icon: Landmark,
-    color: "from-indigo-500 to-violet-600",
-    bg: "bg-indigo-50 dark:bg-indigo-900/20",
-    text: "text-indigo-600 dark:text-indigo-400",
+    color: "from-red-500 to-red-600",
+    bg: "bg-red-50 dark:bg-red-900/20",
+    text: "text-red-600 dark:text-red-400",
     description:
       "Mencatat semua transaksi pinjaman anggota mulai dari pengajuan, pencairan, jadwal angsuran, hingga pelunasan.",
     ketentuan: "Wajib ada sebagai bukti peminjaman",
@@ -80,9 +80,9 @@ const books = [
     no: 7,
     title: "Buku Surat Masuk & Keluar",
     icon: Mail,
-    color: "from-violet-500 to-purple-600",
-    bg: "bg-violet-50 dark:bg-violet-900/20",
-    text: "text-violet-600 dark:text-violet-400",
+    color: "from-orange-500 to-orange-600",
+    bg: "bg-orange-50 dark:bg-orange-900/20",
+    text: "text-orange-600 dark:text-orange-400",
     description:
       "Pencatatan seluruh surat resmi yang diterima (masuk) dan dikirim (keluar) oleh koperasi kepada instansi, lembaga, atau anggota.",
     ketentuan: "Wajib ada untuk kelancaran korespondensi",
@@ -121,7 +121,7 @@ export default function BooksPage() {
       <div className="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shadow-sm">
         <div className="px-5 pt-10 pb-6">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-sm">
               <BookMarked size={20} className="text-white" />
             </div>
             <div>
@@ -133,8 +133,8 @@ export default function BooksPage() {
       </div>
 
       {/* Info Banner */}
-      <div className="mx-5 mt-5 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800 rounded-2xl p-4">
-        <p className="text-xs font-bold text-indigo-700 dark:text-indigo-400 mb-1">📋 Tentang 9 Buku Koperasi</p>
+      <div className="mx-5 mt-5 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border border-red-100 dark:border-red-800 rounded-2xl p-4">
+        <p className="text-xs font-bold text-red-700 dark:text-red-400 mb-1">📋 Tentang 9 Buku Koperasi</p>
         <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
           Berdasarkan ketentuan Undang-Undang No. 25 Tahun 1992 tentang Perkoperasian,
           setiap koperasi wajib menyelenggarakan administrasi dengan tertib menggunakan 9 buku utama berikut.
