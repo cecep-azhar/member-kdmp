@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { payloadFetch } from "@/lib/payload";
-import { ArrowLeft, Landmark, CheckCircle2, Clock, AlertTriangle, TrendingDown, Calendar } from "lucide-react";
+import { ArrowLeft, Landmark, CheckCircle2, Clock, AlertTriangle, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useParams } from "next/navigation";

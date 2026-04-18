@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowLeft, BookOpen, Users, Wallet, Landmark, Activity, Package, BookMarked, Mail, FileText, ClipboardList } from "lucide-react";
+import { BookOpen, Users, Wallet, Landmark, Activity, Package, BookMarked, Mail, FileText, ClipboardList } from "lucide-react";
 
 const books = [
   {

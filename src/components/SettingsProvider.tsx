@@ -33,7 +33,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function fetchSettings() {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_PAYLOAD_API_URL || 'http://localhost:3000/api';
+        const isServer = typeof window === 'undefined';
+        const backendUrl = isServer 
+          ? (process.env.PAYLOAD_INTERNAL_API_URL || 'http://127.0.0.1:3000/api')
+          : (process.env.NEXT_PUBLIC_PAYLOAD_API_URL || 'http://localhost:3000/api');
         const res = await fetch(`${backendUrl}/globals/settings`);
         if (res.ok) {
           const data = await res.json();

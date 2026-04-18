@@ -269,7 +269,7 @@ export function MemberDashboard() {
                     </div>
                     <div>
                       <p className="font-bold text-slate-900 dark:text-white text-xs">
-                        {SAVING_TYPE_LABELS[item.type as keyof typeof SAVING_TYPE_LABELS] || item.type}
+                        {(SAVING_TYPE_LABELS as Record<string, string>)[item.type] || item.type}
                       </p>
                       <p className="text-slate-400 text-[10px]">
                         {formatDate(item.createdAt, "short")}

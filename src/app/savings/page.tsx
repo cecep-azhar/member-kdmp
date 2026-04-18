@@ -143,9 +143,9 @@ export default function SavingsPage() {
         {/* Filter Setoran/Penarikan */}
         <div className="flex gap-2">
           {[
-            { key: "all" as TxType, label: "Semua Transaksi" },
-            { key: "deposit" as TxType, label: "Setoran" },
-            { key: "withdrawal" as TxType, label: "Penarikan" },
+            { key: "all" as TxFilterType, label: "Semua Transaksi" },
+            { key: "deposit" as TxFilterType, label: "Setoran" },
+            { key: "withdrawal" as TxFilterType, label: "Penarikan" },
           ].map((btn) => (
             <button
               key={btn.key}
@@ -191,7 +191,7 @@ export default function SavingsPage() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-900 dark:text-white text-sm">
-                      {SAVING_TYPE_LABELS[item.type as keyof typeof SAVING_TYPE_LABELS] || item.type}
+                      {(SAVING_TYPE_LABELS as Record<string, string>)[item.type] || item.type}
                     </p>
                     <p className="text-slate-400 text-[11px] font-medium">
                       {formatDate(item.createdAt)}

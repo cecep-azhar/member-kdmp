@@ -22,6 +22,14 @@ export async function payloadFetch(path: string, options: RequestInit = {}) {
   });
 
   if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('member-user');
+        localStorage.removeItem('member-token');
+        document.cookie = 'member-token=; path=/; max-age=0';
+        window.location.href = '/login';
+      }
+    }
     const errorData = await res.json().catch(() => ({}));
     throw new Error(errorData.errors?.[0]?.message || `API request failed (${res.status})`);
   }

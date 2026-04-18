@@ -6,7 +6,7 @@ import { payloadFetch } from "@/lib/payload";
 import {
   User, Mail, Smartphone, MapPin, Briefcase, Calendar,
   ChevronRight, LogOut, Shield, Settings, Info, BookOpen,
-  Wallet, Landmark, TrendingUp
+  Wallet, Landmark
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
