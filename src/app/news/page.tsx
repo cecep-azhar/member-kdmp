@@ -1,4 +1,6 @@
 import React from "react";
+
+export const runtime = "edge";
 import Link from "next/link";
 import { ChevronRight, Calendar, Tag, Newspaper } from "lucide-react";
 

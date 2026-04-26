@@ -1,4 +1,6 @@
 import React from "react";
+
+export const runtime = "edge";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Tag, Share2 } from "lucide-react";
 import { notFound } from "next/navigation";
