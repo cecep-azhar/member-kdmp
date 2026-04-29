@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { BottomNav } from "@/components/BottomNav";
+import { InstallPrompt } from "@/components/InstallPrompt";
 
 /**
  * ClientWrapper - Komponen client-side untuk layout.
@@ -18,6 +19,7 @@ export function ClientWrapper({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       {!isLoginPage && <BottomNav />}
+      {!isLoginPage && <InstallPrompt />}
     </div>
   );
 }

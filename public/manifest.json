@@ -3,11 +3,14 @@
   "short_name": "KDMP",
   "description": "Portal anggota Cooperativa Desa Merah Putih",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#FFFFFF",
   "theme_color": "#DC2626",
-  "orientation": "portrait",
-  "scope": "/",
+  "categories": ["finance", "productivity"],
+  "lang": "id",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -22,7 +25,41 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["finance", "productivity"],
-  "lang": "id",
-  "dir": "ltr"
+  "screenshots": [
+    {
+      "src": "/screenshot-app.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Halaman utama aplikasi"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Simpanan",
+      "short_name": "Simpanan",
+      "description": "Lihat simpanan anggota",
+      "url": "/savings"
+    },
+    {
+      "name": "Pinjaman",
+      "short_name": "Pinjaman",
+      "description": "Lihat pinjaman anggota",
+      "url": "/loans"
+    },
+    {
+      "name": "Buku",
+      "short_name": "Buku",
+      "description": "Lihat buku kas",
+      "url": "/books"
+    },
+    {
+      "name": "Profil",
+      "short_name": "Profil",
+      "description": "Lihat profil anggota",
+      "url": "/profile"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

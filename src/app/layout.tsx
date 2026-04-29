@@ -31,6 +31,12 @@ export const metadata: Metadata = {
     title: "Aplikasi Anggota KDMP",
     description: "Portal anggota Cooperativa Desa Merah Putih",
   },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export const viewport: Viewport = {
